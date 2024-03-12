@@ -9,14 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class JornadaAdapter extends RecyclerView.Adapter<JornadaViewHolder> {
 
-    private final LinkedList<Price> mList;
+    private final List<Price> mList;
     private LayoutInflater mInflater;
 
     public JornadaAdapter(Context context,
-                          LinkedList<Price> list) {
+                          List<Price> list) {
         mInflater = LayoutInflater.from(context);
         this.mList = list;
     }

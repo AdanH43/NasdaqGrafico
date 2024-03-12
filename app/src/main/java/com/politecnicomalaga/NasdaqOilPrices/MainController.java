@@ -1,9 +1,5 @@
 package com.politecnicomalaga.NasdaqOilPrices;
 
-import android.util.Log;
-
-import com.jjoe64.graphview.GraphView;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +11,8 @@ public class MainController {
 
     private List<Price> dataRequested;
     private static MainActivity activeActivity;
+
+    private JornadaListViewModel myViewModel;
     //Comportamiento
     //Constructor
     private MainController() {
@@ -35,9 +33,11 @@ public class MainController {
     }
 
     //Called from the view
-    public void requestDataFromNasdaq() {
+    public void requestDataFromNasdaq(JornadaListViewModel jornadaListViewModel) {
         Peticion p = new Peticion();
         p.requestData(DATA_URL);
+        this.myViewModel = jornadaListViewModel;
+
     }
 
     //Called when onResponse is OK
@@ -45,7 +45,7 @@ public class MainController {
 
         Respuesta answer = new Respuesta(json);
         dataRequested = answer.getData();
-        MainController.activeActivity.accessData();
+        if(myViewModel != null) myViewModel.setData(dataRequested);
     }
 
     public void setErrorFromNasdaq(String error) {
@@ -58,5 +58,7 @@ public class MainController {
     public static void setActivity(MainActivity myAct) {
         activeActivity = myAct;
     }
+
+
 
 }

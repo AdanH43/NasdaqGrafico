@@ -1,6 +1,7 @@
 package com.politecnicomalaga.NasdaqOilPrices;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,19 +30,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toast.makeText(MainActivity.this, "Getting data from Nasdaq Servers...", Toast.LENGTH_LONG).show();
-        MainController.getSingleton().requestDataFromNasdaq();
 
-        // Get a handle to the RecyclerView.
-        mRecyclerView = findViewById(R.id.rv_prices);
-        // Create an adapter and supply the data to be displayed.
-        mAdapter = new JornadaAdapter(this, mList);
-        // Connect the adapter with the RecyclerView.
-        mRecyclerView.setAdapter(mAdapter);
-        // Give the RecyclerView a default layout manager.
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        MainActivity.myActiveActivity = this;
-        MainController.setActivity(this);
+        JornadaListViewModel vmodel = new ViewModelProvider(this).get(JornadaListViewModel.class);
+        vmodel.getPrices().observe(this, prices -> {
+            // update UI
+            // Get a handle to the RecyclerView.
+            mRecyclerView = findViewById(R.id.rv_prices);
+            // Create an adapter and supply the data to be displayed.
+            mAdapter = new JornadaAdapter(this, prices);
+            // Connect the adapter with the RecyclerView.
+            mRecyclerView.setAdapter(mAdapter);
+            // Give the RecyclerView a default layout manager.
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        });
 
         Button generarGraph = findViewById(R.id.btGraph);
         generarGraph.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void accessData() {
+    /*
+     public void accessData() {
         //Get data from servers throgh controller-model classes
         List<Price> nuevaLista = MainController.getSingleton().getDataFromNasdaq();
 
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.tv_oilDesc);
         tv.setText("Nasdaq Oil Prices: 30 rows");
     }
-
+*/
     public void errorData(String error) {
         TextView tv = (TextView) findViewById(R.id.tv_oilDesc);
         tv.setText(error);

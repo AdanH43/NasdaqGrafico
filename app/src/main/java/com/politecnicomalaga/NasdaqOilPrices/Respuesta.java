@@ -43,7 +43,6 @@ public class Respuesta {
         for(int i = 0;i<jsonLista.size();i++) {
             dataList.add(new Price(jsonLista.get(i).getAsJsonArray().get(0).getAsJsonPrimitive().getAsString(),jsonLista.get(i).getAsJsonArray().get(1).getAsJsonPrimitive().getAsString()));
         }
-
         return dataList;
     }
 }

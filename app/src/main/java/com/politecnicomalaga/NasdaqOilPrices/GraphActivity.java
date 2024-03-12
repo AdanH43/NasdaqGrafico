@@ -57,11 +57,11 @@ public class GraphActivity extends AppCompatActivity {
         gvGrafico.removeAllSeries();
         gvGrafico.addSeries(series);
 
-
-
         gvGrafico.getViewport().setXAxisBoundsManual(true);
         gvGrafico.getViewport().setMinX(3);
         gvGrafico.getViewport().setMaxX(23);
+
+       
 
     }
 }
